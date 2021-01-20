@@ -1,49 +1,33 @@
 const fetch = require('node-fetch');
+const fs = require('fs');
 const url = 'https://memegen-link-examples-upleveled.netlify.app/';
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
-const imgArr = [];
 
-async function getAny() {
-  const response = await fetch(url);
-  const body = await response.text();
-  imgArr.push(body);
-  const dom = new JSDOM(body);
-  console.log(
-    [...dom.window.document.querySelectorAll('img')].map(
-      (img) => img.outerHTML.split('https')[1],
-    ),
-  );
+// fetch('https://github.com/')
+//     .then(res => res.text())
+//     .then(body => console.log(body));
+let body = [];
+async function scrapMemes() {
+  const res = await fetch(url);
+  body = await res.text();
+  let pattern = 'img';
+  let filtered = body.filter(function (str) {
+    return str.includes(pattern);
+    body.push(filtered);
+  });
+
+  console.log(body);
 }
-
-getAny();
-
-// async function getUserAsync(name) {
-//   const response = await fetch(url);
-//   const body = await response.json();
-
-//   return body;
+scrapMemes();
+// scrapMemes();
+// let makeArray = [];
+// function makeArr() {
+//   if (body.includes('img'));
+//   makeArray.push();
 // }
 
-// getUserAsync();
-
-// async function getBody() {
-//   const Data = await await fetch(url)
-//     .then((res) => res.text())
-//     .then(function (body) {
-//       return body;
-//     });
-//   return await Data;
+// function getImage() {
+//   let imgArray = [];
+//   if (body.includes('img')) {
+//     imgArray.push[body];
+//   }
 // }
-
-// console.log(getBody());
-
-// // const dom = new JSDOM(string);
-
-// const dom = new JSDOM(``, {
-//   url: url,
-//   referrer: url,
-//   contentType: 'text/html',
-//   includeNodeLocations: true,
-//   storageQuota: 10000000,
-// });
