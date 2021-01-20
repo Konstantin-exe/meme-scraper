@@ -2,32 +2,12 @@ const fetch = require('node-fetch');
 const fs = require('fs');
 const url = 'https://memegen-link-examples-upleveled.netlify.app/';
 
-// fetch('https://github.com/')
-//     .then(res => res.text())
-//     .then(body => console.log(body));
-let body = [];
+// let imgArr = [];
 async function scrapMemes() {
   const res = await fetch(url);
-  body = await res.text();
-  let pattern = 'img';
-  let filtered = body.filter(function (str) {
-    return str.includes(pattern);
-    body.push(filtered);
-  });
-
-  console.log(body);
+  const html = await res.text();
+  const imgArr = html.split('\n').filter('<img');
+  console.log(imgArr);
 }
-scrapMemes();
-// scrapMemes();
-// let makeArray = [];
-// function makeArr() {
-//   if (body.includes('img'));
-//   makeArray.push();
-// }
 
-// function getImage() {
-//   let imgArray = [];
-//   if (body.includes('img')) {
-//     imgArray.push[body];
-//   }
-// }
+scrapMemes();
