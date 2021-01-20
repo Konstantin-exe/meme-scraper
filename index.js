@@ -4,19 +4,19 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const imgArr = [];
 
-async function getAny() {
+async function getImgArr() {
   const response = await fetch(url);
   const body = await response.text();
   imgArr.push(body);
   const dom = new JSDOM(body);
   console.log(
     [...dom.window.document.querySelectorAll('img')].map(
-      (img) => img.outerHTML.split('https')[1],
+      (img) => img.outerHTML.split('"')[1],
     ),
   );
 }
 
-getAny();
+getImgArr();
 
 // async function getUserAsync(name) {
 //   const response = await fetch(url);
