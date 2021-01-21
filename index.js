@@ -1,49 +1,55 @@
 const fetch = require('node-fetch');
-const url = 'https://memegen-link-examples-upleveled.netlify.app/';
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
-const imgArr = [];
+const fs = require('fs');
+const request = require('request');
+const path = require('path');
 
-async function getImgArr() {
-  const response = await fetch(url);
-  const body = await response.text();
-  imgArr.push(body);
-  const dom = new JSDOM(body);
-  console.log(
-    [...dom.window.document.querySelectorAll('img')].map(
-      (img) => img.outerHTML.split('"')[1],
-    ),
-  );
+const url = 'https://memegen-link-examples-upleveled.netlify.app/';
+
+let imgArr = [];
+
+// making directory for memes
+let dir = './memes';
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir);
 }
 
-getImgArr();
+// helper function to build an array with strings of <img src=/>
+function getImg(arr) {
+  let elementArr = [];
+  for (let element of arr) {
+    if (element.match('<img[^>]+src\\s*=\\s*[\'"]([^\'"]+)[\'"][^>]*>')) {
+      elementArr.push(element.split('"')[1]);
+    }
+  }
+  elementArr.length = 10;
+  return elementArr;
+}
 
-// async function getUserAsync(name) {
-//   const response = await fetch(url);
-//   const body = await response.json();
+// request for img download
+const download = function (uri, filename, callback) {
+  request.head(uri, function (err, res, body) {
+    console.log('content-type:', res.headers['content-type']);
+    console.log('content-length:', res.headers['content-length']);
 
-//   return body;
-// }
+    request(uri).pipe(
+      fs
+        .createWriteStream(path.join(__dirname, './memes', filename))
+        .on('close', callback),
+    );
+  });
+};
+// fetching the HTML
+async function scrapMemes() {
+  const res = await fetch(url);
+  const html = await res.text();
+  const htmlArr = html.split('\n');
+  imgArr = getImg(htmlArr);
+  console.log(imgArr);
 
-// getUserAsync();
-
-// async function getBody() {
-//   const Data = await await fetch(url)
-//     .then((res) => res.text())
-//     .then(function (body) {
-//       return body;
-//     });
-//   return await Data;
-// }
-
-// console.log(getBody());
-
-// // const dom = new JSDOM(string);
-
-// const dom = new JSDOM(``, {
-//   url: url,
-//   referrer: url,
-//   contentType: 'text/html',
-//   includeNodeLocations: true,
-//   storageQuota: 10000000,
-// });
+  for (let i = 0; i < imgArr.length; i++) {
+    download(imgArr[i], `meme ${i}.jpg`, function () {
+      console.log('done');
+    });
+  }
+}
+scrapMemes();
