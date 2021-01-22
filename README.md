@@ -40,5 +40,7 @@ node memeMaker.js help
 SIMPLY CREATE YOUR OWN MEMES AND IMPRESS YOUR FRIENDS ON THE INTERNET _SUCHWOW_
 
 ```bash
-patrick why-not-take-our-streched-todos and-push-it-to-the-weekend
+node memeMaker.js patrick create-your-memes and-push-it-to-the-internet
 ```
+
+![patrick meme](https://api.memegen.link/images/patrick/create_your_memes/and_push_it_to_the_internet.png)
