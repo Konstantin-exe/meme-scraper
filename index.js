@@ -9,8 +9,8 @@ const url = 'https://memegen-link-examples-upleveled.netlify.app/';
 
 // helper function to build an array with strings of <img src=/>
 function getImg(arr) {
-  let elementArr = [];
-  for (let element of arr) {
+  const elementArr = [];
+  for (const element of arr) {
     if (element.match('<img[^>]+src\\s*=\\s*[\'"]([^\'"]+)[\'"][^>]*>')) {
       elementArr.push(element.split('"')[1]);
     }
@@ -21,7 +21,7 @@ function getImg(arr) {
 
 // request for img download
 const download = function (uri, filename, callback) {
-  request.head(uri, function (err, res, body) {
+  request.head(uri, function () {
     // console.log('content-type:', res.headers['content-type']);
     // console.log('content-length:', res.headers['content-length']);
 
@@ -37,10 +37,10 @@ async function scrapMemes() {
   const res = await fetch(url);
   const html = await res.text();
   const htmlArr = html.split('\n');
-  let imgArr = getImg(htmlArr);
+  const imgArr = getImg(htmlArr);
   console.log(imgArr);
 
-  let dir = './memes';
+  const dir = './memes';
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
   }
