@@ -2,7 +2,6 @@ const fetch = require('node-fetch');
 const fs = require('fs');
 const request = require('request');
 const path = require('path');
-const memeCreator = require('meme-creator');
 
 const url = 'https://memegen-link-examples-upleveled.netlify.app/';
 
