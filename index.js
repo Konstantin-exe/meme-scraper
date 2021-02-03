@@ -22,8 +22,7 @@ function getImg(arr) {
 // request for img download
 const download = function (uri, filename, callback) {
   request.head(uri, function () {
-    // console.log('content-type:', res.headers['content-type']);
-    // console.log('content-length:', res.headers['content-length']);
+
 
     request(uri).pipe(
       fs
